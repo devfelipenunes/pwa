@@ -30,6 +30,8 @@ export function Create() {
   const [savedForm, setSavedForm] = useState<Form[]>([]);
   const originalForm: Form[] = form;
 
+  //image para photos
+
   useEffect(() => {
     async function getData() {
       const savedForm = await Promise.all(
@@ -57,6 +59,8 @@ export function Create() {
     }
     getData();
   }, [form]);
+
+  // console.log("Form Aqui", form);
 
   // async function handleSaveForm() {
   //   const savedQuestionKeys = (await keys()).filter(
@@ -94,6 +98,22 @@ export function Create() {
     await clear();
     setSavedForm([]);
   }
+
+  // useEffect(() => {
+  //   const bodyFormData = new FormData();
+  //   bodyFormData.append("check", "1");
+  //   bodyFormData.append("observation", "salva");
+  //   api
+  //     .post(
+  //       "/checklist/inspection/saveitem/d501441c-51bf-4a4f-a7ca-581b7f6ddf52",
+  //       { data: bodyFormData },
+  //       {
+  //         headers: { "Content-Type": "multipart/form-data" },
+  //       }
+  //     )
+  //     .then((res) => console.log(res))
+  //     .catch((err) => console.log(err.response));
+  // }, []);
 
   async function handleSaveQuestion(index: any): Promise<void> {
     const newForm: Form[] = [...form];

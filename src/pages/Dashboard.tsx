@@ -21,6 +21,7 @@ import { mainListItems, secondaryListItems } from "../components/listItems";
 import Chart from "../components/Chart";
 import Deposits from "../components/Deposits";
 import Orders from "../components/Orders";
+import { useNavigate } from "react-router-dom";
 
 function Copyright(props: any) {
   return (
@@ -98,6 +99,23 @@ function DashboardContent() {
     setOpen(!open);
   };
 
+  const navigate = useNavigate();
+
+  const handleSubmit = (event: any) => {
+    // if (typeof email === "string" && typeof password === "string") {
+    // signin(email, password);
+    // ...
+    // }
+    navigate("/create");
+
+    // const res = signin(data.get("email"), data.get("password"));
+
+    // if (res) {
+    //   return;
+    // }
+    // console.log("res aqui", res);
+  };
+
   return (
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: "flex" }}>
@@ -151,7 +169,8 @@ function DashboardContent() {
           </Toolbar>
           <Divider />
           <List component="nav">
-            {mainListItems}
+            <button onClick={handleSubmit}>Create</button>
+            {/* {mainListItems} */}
             <Divider sx={{ my: 1 }} />
             {secondaryListItems}
           </List>
