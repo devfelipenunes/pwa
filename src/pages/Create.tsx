@@ -2,14 +2,13 @@ import { useEffect, useState } from "react";
 import api from "../services/api";
 import { set, get, keys, del, clear } from "idb-keyval";
 import { CardCreate } from "../components/CardCreate";
-import { isConstructorDeclaration } from "typescript";
 interface Form {
   id: string;
   title: string;
   observation: string;
   check: boolean | undefined;
   // form: FormItem[];
-  foto?: string;
+  image?: string[];
   regulation_text: {
     id: string;
     text: string;
@@ -59,47 +58,6 @@ export function Create() {
     getData();
   }, [form]);
 
-  // useEffect(() => {
-  //   api
-  //     .get("/checklist/inspection/d501441c-51bf-4a4f-a7ca-581b7f6ddf52")
-  //     .then((response) => {
-  //       setForm(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, []);
-
-  // useEffect(() => {
-  //   async function loadState() {
-  //     const savedForm = await get("form");
-  //     if (savedForm) {
-  //       setForm(savedForm);
-  //     }
-  //   }
-  //   loadState();
-  // }, []);
-
-  // useEffect(() => {
-  //   async function fetchSavedForm() {
-  //     if (!hasSavedForm) {
-  //       const savedForm = await Promise.all(
-  //         form.map((_, index) => get(`Form-${index}`))
-  //       );
-
-  //       const newForm = savedForm.filter(Boolean);
-  //       if (newForm.length > 0) {
-  //         const updatedForm = form.map((item) => {
-  //           const savedItem = newForm.find((i) => i.id === item.id);
-  //           return savedItem ? { ...item, ...savedItem } : item;
-  //         });
-  //         setForm(updatedForm);
-  //       }
-  //     }
-  //   }
-  //   fetchSavedForm();
-  // }, [hasSavedForm]);
-
   // async function handleSaveForm() {
   //   const savedQuestionKeys = (await keys()).filter(
   //     (key) => typeof key === "string" && key.startsWith("Form-")
@@ -145,6 +103,22 @@ export function Create() {
     await set(`Form-${index}`, form[index]);
   }
 
+  const handleCapture = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    if (event.target.files && event.target.files.length > 0) {
+      const newForm = [...form];
+      if (!newForm[index].image) {
+        newForm[index].image = [];
+      }
+      for (let i = 0; i < event.target.files.length; i++) {
+        newForm[index].image!.push(URL.createObjectURL(event.target.files[i]));
+      }
+      setForm(newForm);
+    }
+  };
+
   return (
     <div>
       <button onClick={handleClearData}>limpar</button>
@@ -179,16 +153,27 @@ export function Create() {
               newForm[index].check = e.target.checked;
               setForm(newForm);
             }}
-            imageChange={(e) => {
-              if (e.target.files) {
-                const newForm = [...form];
-                newForm[index].foto = URL.createObjectURL(e.target.files[0]);
-                setForm(newForm);
-              }
-            }}
+            // image={data?.image}
+            imageChange={(e) => handleCapture(e, index)}
             onClick={() => handleSaveQuestion(index)}
             isSaved={!!data.isSaved}
           />
+
+          <div className="flex-container">
+            {form[index].image &&
+              form[index].image!.length > 0 &&
+              form[index].image!.map((imageUrl, i) => (
+                <img
+                  key={i}
+                  style={{
+                    width: 100,
+                    height: 100,
+                  }}
+                  src={imageUrl}
+                  alt={`captured-${i}`}
+                />
+              ))}
+          </div>
         </div>
       ))}
     </div>
