@@ -2,11 +2,12 @@ import { Box, Typography } from "@mui/material";
 
 interface ICardCreate {
   observation: string;
-  check: boolean | undefined;
+  check: string | Blob;
   text: string;
   regulation: string;
   description_subitem: string;
-  isSaved: boolean;
+  // isSaved: boolean;
+  isSaved: string | undefined;
   observationChange: React.ChangeEventHandler<HTMLInputElement> | undefined;
   imageChange: React.ChangeEventHandler<HTMLInputElement> | undefined;
   checkChange: React.ChangeEventHandler<HTMLInputElement> | undefined;
@@ -67,7 +68,15 @@ export function CardCreate({
           height: 70,
           color: "white",
           borderRadius: 50,
-          backgroundColor: isSaved ? "green" : "blue",
+          // backgroundColor: isSaved ? "green" : "blue",
+          backgroundColor:
+            isSaved === undefined
+              ? "blue"
+              : isSaved === "offline"
+              ? "yellow"
+              : isSaved === "online"
+              ? "green"
+              : "blue",
         }}
         onClick={onClick}
       >
