@@ -2,11 +2,10 @@ import { Box, Typography } from "@mui/material";
 
 interface ICardCreate {
   observation: string;
-  check: string | Blob;
+  check: string | boolean;
   text: string;
   regulation: string;
   description_subitem: string;
-  // isSaved: boolean;
   isSaved: string | undefined;
   observationChange: React.ChangeEventHandler<HTMLInputElement> | undefined;
   imageChange: React.ChangeEventHandler<HTMLInputElement> | undefined;
