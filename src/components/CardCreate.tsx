@@ -79,7 +79,13 @@ export function CardCreate({
         }}
         onClick={onClick}
       >
-        Salvar
+        {isSaved === undefined
+          ? "Salvar"
+          : isSaved === "offline"
+          ? "Salvando"
+          : isSaved === "online"
+          ? "Salvo"
+          : "Salvar"}
       </button>
     </Box>
   );
