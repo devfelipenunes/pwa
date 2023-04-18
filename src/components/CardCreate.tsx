@@ -1,8 +1,10 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
+import { ButtonAddPhoto } from "./ButtonAddPhoto";
+import { ButtonSaveForm } from "./ButtonSaveForm";
 
 interface ICardCreate {
   observation: string;
-  check: string | boolean;
+  check: boolean;
   text: string;
   regulation: string;
   description_subitem: string;
@@ -26,7 +28,7 @@ export function CardCreate({
   isSaved,
 }: ICardCreate) {
   return (
-    <Box sx={{ width: "90%", marginY: 2 }}>
+    <Box sx={{ flex: 1, width: "90%", marginY: 2 }}>
       <input type="checkbox" checked={check} onChange={checkChange} />
       <Typography
         sx={{
@@ -45,8 +47,8 @@ export function CardCreate({
       </Typography>
 
       <Typography>{text}</Typography>
-      <Box sx={{ flexDirection: "column" }}>
-        <input type="file" multiple onChange={imageChange} />
+      <Stack spacing={1} sx={{ flexDirection: "column" }}>
+        <ButtonAddPhoto onChange={imageChange} />
 
         <Typography>Observações</Typography>
         <input
@@ -59,34 +61,9 @@ export function CardCreate({
           value={observation}
           onChange={observationChange}
         />
-      </Box>
-      <button
-        style={{
-          marginTop: 10,
-          width: "100%",
-          height: 70,
-          color: "white",
-          borderRadius: 50,
-          // backgroundColor: isSaved ? "green" : "blue",
-          backgroundColor:
-            isSaved === undefined
-              ? "blue"
-              : isSaved === "offline"
-              ? "yellow"
-              : isSaved === "online"
-              ? "green"
-              : "blue",
-        }}
-        onClick={onClick}
-      >
-        {isSaved === undefined
-          ? "Salvar"
-          : isSaved === "offline"
-          ? "Salvando"
-          : isSaved === "online"
-          ? "Salvo"
-          : "Salvar"}
-      </button>
+
+        <ButtonSaveForm isSaved={isSaved} onClick={onClick} />
+      </Stack>
     </Box>
   );
 }

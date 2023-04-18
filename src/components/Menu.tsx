@@ -1,9 +1,11 @@
 import {
   Badge,
   Box,
+  Button,
   Divider,
   IconButton,
   List,
+  Stack,
   Toolbar,
   Typography,
 } from "@mui/material";
@@ -16,14 +18,18 @@ import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+import AddIcon from "@mui/icons-material/Add";
+
 import MuiDrawer from "@mui/material/Drawer";
+
+import HomeIcon from "@mui/icons-material/Home";
 
 interface MenuProps {
   children: React.ReactNode;
 }
 
 export function Menu({ children }: MenuProps) {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
   const mdTheme = createTheme();
 
@@ -31,20 +37,18 @@ export function Menu({ children }: MenuProps) {
     setOpen(!open);
   };
 
-  const handleSubmit = (event: any) => {
-    // if (typeof email === "string" && typeof password === "string") {
-    // signin(email, password);
-    // ...
-    // }
+  const handleCreate = (event: any) => {
     navigate("/create");
-
-    // const res = signin(data.get("email"), data.get("password"));
-
-    // if (res) {
-    //   return;
-    // }
-    // console.log("res aqui", res);
   };
+
+  const handleHome = (event: any) => {
+    navigate("/Dashboard");
+  };
+  interface AppBarProps extends MuiAppBarProps {
+    open?: boolean;
+  }
+  const drawerWidth: number = 240;
+  // const drawerWidth: number = ;
 
   const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== "open",
@@ -63,11 +67,6 @@ export function Menu({ children }: MenuProps) {
       }),
     }),
   }));
-
-  interface AppBarProps extends MuiAppBarProps {
-    open?: boolean;
-  }
-  const drawerWidth: number = 240;
 
   const Drawer = styled(MuiDrawer, {
     shouldForwardProp: (prop) => prop !== "open",
@@ -98,10 +97,10 @@ export function Menu({ children }: MenuProps) {
   return (
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: "flex" }}>
-        <AppBar position="absolute" open={open}>
+        <AppBar position="fixed" open={open}>
           <Toolbar
             sx={{
-              pr: "24px", // keep right padding when drawer closed
+              pr: "24px",
             }}
           >
             <IconButton
@@ -146,12 +145,36 @@ export function Menu({ children }: MenuProps) {
             </IconButton>
           </Toolbar>
           <Divider />
-          <List component="nav">
-            <button onClick={handleSubmit}>Create</button>
+          <Stack
+            spacing={2}
+            sx={{
+              marginTop: 10,
+              display: "flex",
+              flexDirection: "column",
+              position: "fixed",
+            }}
+            // component="nav"
+          >
+            <Button
+              // sx={{ height: 50 }}
+              // variant="contained"
+              // component="label"
+              onClick={handleHome}
+            >
+              <HomeIcon />
+            </Button>
+            <Button
+              // sx={{ width: 5, height: 50 }}
+              // variant="contained"
+              // component="label"
+              onClick={handleCreate}
+            >
+              <AddIcon />
+            </Button>
             {/* {mainListItems} */}
-            <Divider sx={{ my: 1 }} />
+            {/* <Divider sx={{ my: 1 }} /> */}
             {/* {secondaryListItems} */}
-          </List>
+          </Stack>
         </Drawer>
         {children}
       </Box>

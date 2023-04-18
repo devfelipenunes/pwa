@@ -8,7 +8,7 @@ interface Form {
   id: string;
   title: string;
   observation: string;
-  check: boolean | string;
+  check: boolean;
   // form: FormItem[];
   photos?: string[];
   regulation_text: {
@@ -86,7 +86,7 @@ export function Create() {
       const formData = new FormData();
       updatedForm.forEach((item) => {
         if (item.isSaved === "offline") {
-          formData.append("check", item.check);
+          formData.append("check", item.check.toString());
           formData.append("observation", item.observation);
           if (Array.isArray(item.photos)) {
             item.photos.forEach((photo) => {
