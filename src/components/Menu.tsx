@@ -47,8 +47,7 @@ export function Menu({ children }: MenuProps) {
   interface AppBarProps extends MuiAppBarProps {
     open?: boolean;
   }
-  const drawerWidth: number = 240;
-  // const drawerWidth: number = ;
+  const drawerWidth: number = 60;
 
   const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== "open",
@@ -86,9 +85,9 @@ export function Menu({ children }: MenuProps) {
           easing: theme.transitions.easing.sharp,
           duration: theme.transitions.duration.leavingScreen,
         }),
-        width: theme.spacing(7),
+        width: theme.spacing(0),
         [theme.breakpoints.up("sm")]: {
-          width: theme.spacing(9),
+          width: theme.spacing(10),
         },
       }),
     },
@@ -143,38 +142,25 @@ export function Menu({ children }: MenuProps) {
             <IconButton onClick={toggleDrawer}>
               <ChevronLeftIcon />
             </IconButton>
+            <Stack
+              spacing={2}
+              sx={{
+                marginTop: 25,
+                display: "flex",
+                flexDirection: "column",
+                position: "fixed",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Button onClick={handleHome}>
+                <HomeIcon />
+              </Button>
+              <Button onClick={handleCreate}>
+                <AddIcon />
+              </Button>
+            </Stack>
           </Toolbar>
-          <Divider />
-          <Stack
-            spacing={2}
-            sx={{
-              marginTop: 10,
-              display: "flex",
-              flexDirection: "column",
-              position: "fixed",
-            }}
-            // component="nav"
-          >
-            <Button
-              // sx={{ height: 50 }}
-              // variant="contained"
-              // component="label"
-              onClick={handleHome}
-            >
-              <HomeIcon />
-            </Button>
-            <Button
-              // sx={{ width: 5, height: 50 }}
-              // variant="contained"
-              // component="label"
-              onClick={handleCreate}
-            >
-              <AddIcon />
-            </Button>
-            {/* {mainListItems} */}
-            {/* <Divider sx={{ my: 1 }} /> */}
-            {/* {secondaryListItems} */}
-          </Stack>
         </Drawer>
         {children}
       </Box>

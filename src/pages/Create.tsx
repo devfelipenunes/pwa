@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
-import { set, get, keys, del, clear } from "idb-keyval";
+import { set, get, clear } from "idb-keyval";
 import { CardCreate } from "../components/CardCreate";
 import { Menu } from "../components/Menu";
+import { Box } from "@mui/material";
 
 interface Form {
   id: string;
@@ -26,11 +27,7 @@ interface Form {
 }
 
 export function Create() {
-  const [hasSavedForm, setHasSavedForm] = useState(false);
   const [form, setForm] = useState<Form[]>([]);
-  const [data, setData] = useState<Form[]>([]);
-  const [savedForm, setSavedForm] = useState<Form[]>([]);
-  const originalForm: Form[] = form;
 
   async function getData() {
     const savedForm = await getSavedForm();
@@ -57,14 +54,10 @@ export function Create() {
     const allHaveIsSaved = updatedForm.every((item) =>
       item.hasOwnProperty("isSaved")
     );
-    console.log("all have is saved", allHaveIsSaved);
     if (allHaveIsSaved) {
       const allOnline = updatedForm.every((item) => item.isSaved === "online");
-      console.log("update form", updatedForm);
-      console.log(" all online", allOnline);
       if (allOnline) {
         await clear();
-        console.log("Apaguei!");
         alert("All online");
         getFormDataFromApi();
       }
@@ -93,7 +86,6 @@ export function Create() {
               formData.append("photos", photo);
             });
           }
-          // formData.append("photos", item.photos);
         }
       });
       await api.post(
@@ -127,11 +119,6 @@ export function Create() {
       });
   }
 
-  async function handleClearData() {
-    await clear();
-    setSavedForm([]);
-  }
-
   async function handleSaveQuestion(index: any): Promise<void> {
     const newForm: Form[] = [...form];
     newForm[index] = form[index];
@@ -163,8 +150,7 @@ export function Create() {
 
   return (
     <Menu>
-      <div>
-        <button onClick={handleClearData}>limpar</button>
+      <Box>
         {form?.map((data, index) => (
           <div
             style={{
@@ -220,7 +206,7 @@ export function Create() {
             </div>
           </div>
         ))}
-      </div>
+      </Box>
     </Menu>
   );
 }
