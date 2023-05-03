@@ -38,7 +38,7 @@ export function Menu({ children }: MenuProps) {
   };
 
   const handleCreate = (event: any) => {
-    navigate("/create");
+    navigate("/CreateForm");
   };
 
   const handleHome = (event: any) => {

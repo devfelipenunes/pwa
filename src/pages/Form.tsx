@@ -26,7 +26,7 @@ interface Form {
   isSaved?: string | undefined;
 }
 
-export function Create() {
+export function Form() {
   const [form, setForm] = useState<Form[]>([]);
 
   async function getData() {
